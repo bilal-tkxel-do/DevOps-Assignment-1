@@ -1,27 +1,25 @@
-version: "3.8"
-
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins:latest
     ports:
       - "8080:8080"
-      - "50000:50000"
     volumes:
-      - jenkins_data:/var/jenkins_home
-    networks:
-      - jenkins_network
+      - jenkins_home:/var/jenkins_home
+    restart: always
 
   sonarqube:
     image: sonarqube:latest
     ports:
       - "9000:9000"
-    networks:
-      - jenkins_network
+    volumes:
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
 
 volumes:
-  jenkins_data:
-
-networks:
-  jenkins_network:
-    driver: bridge
-
+  jenkins_home:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
